@@ -2,12 +2,14 @@ var store = {
   imageNames: [],
   selected1: null,
   selected2: null,
-  source: null
+  source: null,
+  imageOrder: [],
 }
 
 var main = () => {
   store.imageNames = parseImageNames();
   // console.log(store.imageNames);
+  createDeleteButton();
   createImageElements(store.imageNames);
 
   $(window).on('resize', () => {
@@ -18,6 +20,27 @@ var main = () => {
   });
 };
 
+var createDeleteButton = () => {
+  var $deleteButton = $(`<button class='reset-button'>Reset</button>`);
+  $deleteButton.prependTo('.app');
+  $deleteButton.on('click', () => {
+    reset();
+  })
+}
+
+var saveImageOrder = () => {
+  store.imageOrder = [];
+  var imageElements = $('.image');
+  for(let i = 0; i < imageElements.length; i++) {
+    var src = $('#image-'+i).attr('src');
+    // src = src.split('/')[1];
+    store.imageOrder.push(src);
+  }
+  // console.log(store.imageOrder);
+  localStorage.setItem('photoOrder', store.imageOrder);
+  // console.log('\n\n'+window.localStorage.photoOrder);
+}
+
 var parseImageNames = () => {
   var imageNames = [];
   for(let i in files) {
@@ -25,7 +48,23 @@ var parseImageNames = () => {
       imageNames.push(files[i]);
     }
   }
+  if(window.localStorage.photoOrder != 'null') {
+    // console.log(window.localStorage.photoOrder);
+    // console.log('test');
+    var temp = window.localStorage.photoOrder.split(',');
+    for(let i in temp) {
+      temp[i] = temp[i].split('images/')[1];
+    }
+    imageNames = temp;
+    // imageNames = window.localStorage.photoOrder.split(',');
+  }
+  // console.log(window.localStorage.photoOrder);
   return imageNames;
+}
+
+var reset = () => {
+  console.log('RESET IMAGE ORDER');
+  window.localStorage.photoOrder = null;
 }
 
 var createImageElements = (imageNames) => {
@@ -71,20 +110,9 @@ var createImageElements = (imageNames) => {
         store.selected2.attr('src', store.source);
         store.selected1.css('opacity', '1')
         store.selected1 = store.selected2 = store.source = null;
+        saveImageOrder();
       }
-      // console.log(store);
-      // console.log(`#image-${i}`);
     });
-
-    // $(`#image-${i}`).on('resize', () => {
-    //   if($(`#image-${i}`).width() > $(`#image-${i}`).height()) {
-    //     // wide
-    //     $(`#image-${i}`).css({ 'width': 'auto', 'height': '100%' });
-    //   } else {
-    //     // tall
-    //     $(`#image-${i}`).css({ 'width': '100%', 'height': 'auto' });
-    //   }
-    // })
   }
 }
 
