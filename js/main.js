@@ -48,7 +48,7 @@ var parseImageNames = () => {
       imageNames.push(files[i]);
     }
   }
-  if(window.localStorage.photoOrder != 'null') {
+  if(window.localStorage.photoOrder != 'null' || window.localStorage.photoOrder != null) {
     // console.log(window.localStorage.photoOrder);
     // console.log('test');
     var temp = window.localStorage.photoOrder.split(',');
