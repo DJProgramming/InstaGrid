@@ -44,7 +44,7 @@ var saveImageOrder = () => {
 var parseImageNames = () => {
   var imageNames = [];
   for(let i in files) {
-    if(files[i].endsWith('.jpg')) {
+    if(files[i].toLowerCase().endsWith('.jpg') || files[i].toLowerCase().endsWith('.png') || files[i].toLowerCase().endsWith('.gif')) {
       imageNames.push(files[i]);
     }
   }
