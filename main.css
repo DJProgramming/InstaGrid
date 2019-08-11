@@ -53,4 +53,21 @@ html, body {
   left: 50%;
   top: 50%;
   transform: translateY(-50%) translateX(-50%);
+  z-index: 11;
+}
+.image:hover {
+  z-index: 9;
+}
+
+.image-name {
+  position: absolute;
+  font-family: Arial, Helvetica, sans-serif;
+  bottom: 1rem;
+  width: 100%;
+  text-align: center;
+  z-index: 10;
+  text-shadow: 0 5px 5px black;
+  color: rgba(255, 255, 255, .7);
+  /* visibility: hidden; */
+  /* border: 1px solid red; */
 }

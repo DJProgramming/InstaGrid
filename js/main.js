@@ -2,6 +2,9 @@ var store = {
   imageNames: [],
   selected1: null,
   selected2: null,
+  name1: null,
+  name2: null,
+  temp: null,
   source: null,
   imageOrder: [],
 }
@@ -83,6 +86,8 @@ var createImageElements = (imageNames) => {
     }
     $imageContainer.css('height', `${imageHeight/3}px`);
     var $image = $(`<img id='image-${i}' class='image' src='images/${imageNames[i]}'></img>`);
+    var $imageName = $(`<span id='image-name-${i}' class='image-name'>${imageNames[i]}</span>`);
+    $imageName.appendTo($imageContainer);
     $image.appendTo($imageContainer);
 
     // sizing
@@ -100,16 +105,23 @@ var createImageElements = (imageNames) => {
       if(!store.selected1) {
         // console.log($(`#image-${i}`));
         store.selected1 = $(`#image-${i}`);
-        store.selected1.css('opacity', '.4')
+        store.name1 = $(`#image-name-${i}`);
+        store.selected1.css('opacity', '.4');
+        store.temp = store.name1.text();
+        // console.log('Temp:', store.temp);
         store.source = store.selected1.attr('src');
         // console.log(store.source);
       } else if(!store.selected2) {
         // console.log($(`#image-${i}`));
         store.selected2 = $(`#image-${i}`);
+        store.name2 = $(`#image-name-${i}`);
         store.selected1.attr('src', store.selected2.attr('src'));
+        store.name1.text(store.name2.text());
         store.selected2.attr('src', store.source);
+        store.name2.text(store.temp);
         store.selected1.css('opacity', '1')
         store.selected1 = store.selected2 = store.source = null;
+        store.name1 = store.name2 = store.temp = null;
         saveImageOrder();
       }
     });
