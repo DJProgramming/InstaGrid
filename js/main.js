@@ -12,7 +12,7 @@ var store = {
 var main = () => {
   store.imageNames = parseImageNames();
   // console.log(store.imageNames);
-  createDeleteButton();
+  createResetButton();
   createImageElements(store.imageNames);
 
   $(window).on('resize', () => {
@@ -23,11 +23,12 @@ var main = () => {
   });
 };
 
-var createDeleteButton = () => {
+var createResetButton = () => {
   var $deleteButton = $(`<button class='reset-button'>Reset</button>`);
   $deleteButton.prependTo('.app');
   $deleteButton.on('click', () => {
     reset();
+    document.location.reload();
   })
 }
 
